@@ -1,11 +1,11 @@
 require("dotenv").config();
 var axios = require("axios");
-
 var keys = require("./keys.js");
+var Spotify = require("node-spotify-api")
+var spotify = new Spotify(keys.spotify);
 
 var moment = require("moment")
 
-// var spotify = new Spotify(keys.spotify);
 var selector = process.argv[2];
 var args = process.argv;
 var movieName = ""
@@ -17,8 +17,6 @@ for (var i = 3; i < args.length; i++) {
         movieName += args[i];
     }
 }
-
-
 
 function spotifyThis() {
     console.log("you picked " + selector);
