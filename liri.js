@@ -3,8 +3,8 @@ var axios = require("axios");
 var keys = require("./keys.js");
 var Spotify = require("node-spotify-api")
 var spotify = new Spotify(keys.spotify);
-
 var moment = require("moment")
+var fs = require('fs');
 
 var selector = process.argv[2];
 var args = process.argv;
@@ -18,11 +18,43 @@ for (var i = 3; i < args.length; i++) {
     }
 }
 
-function spotifyThis() {
-    console.log("you picked " + selector);
+function spotifyThis(param1) {
+    if (param1) {
+        movieName = param1.replace(/['"]+/g, '');
+    }
+    // if no parameter is given, then we'll automatically return The Sign by Ace of Bass
+    if(movieName.length < 1) {
+        movieName = "The+Sign"
+        spotify
+        .search({ type: 'track', query: movieName })
+        .then(function(response) {
+            console.log(response.tracks.items[2].artists[0].name)
+        })
+        .catch(function(err) {
+            console.log(err);
+        });
+    } 
+
+    // if you do give a parameter, then query the api and return the first result
+    else {
+    spotify
+    .search({ type: 'track', query: movieName })
+    .then(function(response) {
+        // console.log(response);
+        console.log("Artist Name: " + response.tracks.items[0].artists[0].name)
+        console.log("Track Name: " + response.tracks.items[0].name)
+        console.log("Preview URL: " + response.tracks.items[0].external_urls.spotify)
+        console.log("Album Name: " + response.tracks.items[0].album.name)
+    })
+    .catch(function(err) {
+        console.log(err);
+    });}
 }
 
-function movieThis() {
+function movieThis(param1) {
+    if (param1) {
+        movieName = param1.replace(/['"]+/g, '');
+    }
     var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=trilogy";
 
     // This line is just to help us debug against the actual URL.
@@ -62,7 +94,10 @@ function movieThis() {
  
 }
 
-function concertThis() {
+function concertThis(param1) {
+    if (param1) {
+        movieName = param1.replace(/['"]+/g, '');
+    }
     var queryUrl = "https://rest.bandsintown.com/artists/" + movieName + "/events?app_id=codingbootcamp";
 
     // This line is just to help us debug against the actual URL.
@@ -71,6 +106,7 @@ function concertThis() {
     axios.get(queryUrl).then(
     function(response) {
         var data = response.data[0]
+        
         console.log("Lineup: " + data.lineup);
         console.log("Venue city: " + data.venue.city);
         var timifying = moment(data.datetime).format('MMMM Do YYYY, h:mm:ss a')
@@ -100,12 +136,29 @@ function concertThis() {
     });
 }
 
+function runTheThings(func1,param1) {
+    if (func1 === "spotify-this-song") {
+        spotifyThis(param1);
+    } else if(func1 === "movie-this") {
+        movieThis(param1);
+    } else if(func1 === "concert-this") {
+        concertThis(param1)
+    }
+}
+
 function doWhatItSays() {
-    console.log("you picked " + selector);
+    fs.readFile('random.txt', 'utf8', function(err, contents) {
+        var splitArray = contents.split(',');
+        var firstIndex = splitArray[0];
+        var secondIndex = splitArray[1]
+        runTheThings(firstIndex,secondIndex)
+    });
+    console.log('after calling readFile');
 }
 
 switch (selector) {
     case "spotify-this-song":
+        // spotify is done
         spotifyThis();
         break;
     case "movie-this":
@@ -118,5 +171,12 @@ switch (selector) {
         break;
     case "do-what-it-says":
         doWhatItSays();
+        break;
+    default:
+        console.log("you must specify a correct action before your desired object: ");
+        console.log("spotify-this-song")
+        console.log("movie-this")
+        console.log("concert-this")
+        console.log("do-what-it-says")
         break;
 }
