@@ -63,10 +63,13 @@ Navigate to the root folder and type commands like this:
 `node liri.js`
 This will give you a list of commands you can type:
 
-`node liri.js spotify-this-song SONG_GOES_HERE`
-`node liri.js concert-this ARTIST_GOES_HERE`
-`node liri.js movie-this MOVIE_GOES_HERE`
-`node liri.js do-what-it-says`
+* `node liri.js spotify-this-song SONG_GOES_HERE`
+
+* `node liri.js concert-this ARTIST_GOES_HERE`
+
+* `node liri.js movie-this MOVIE_GOES_HERE`
+
+* `node liri.js do-what-it-says`
 
 The `do-what-it-says` function will run based upon what you have in the `random.txt` file. Currently we have 
 `spotify-this-song,”Put me thru“` 
