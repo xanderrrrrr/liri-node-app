@@ -1,10 +1,12 @@
 # liri-node-app
 
-## Clearly state the problem the app is trying to solve (i.e. what is it doing and why)
+## What this accomplishes
 
 LIRI is like iPhone's SIRI. However, while SIRI is a Speech Interpretation and Recognition Interface, LIRI is a _Language_ Interpretation and Recognition Interface. LIRI will be a command line node app that takes in parameters and gives you back data.
 
-## Give a high-level overview of how the app is organized
+You can request a song name from spotify and see song/artist information, lookup when an artist's next concerts are, and look up movie information like year released and actors.
+
+## High-level overview of how the app is organized
 This application has a few functions based on these actions specififed by the user:
 * `concert-this`
 * `spotify-this-song`
@@ -13,8 +15,22 @@ This application has a few functions based on these actions specififed by the us
 
 Each action is a function, and the functions are called upon a switch/case statement. The case calls the corresponding function and we run some APIs with the user's input as the search query for these APIs and return some information to the command line. 
 
+## Technologies used in the app
+We used the following:
+* [Node](https://nodejs.org/en/)
+* [Node Package Manager](https://www.npmjs.com/)
+* [Node-Spotify-API](https://www.npmjs.com/package/node-spotify-api)
+* [Axios](https://www.npmjs.com/package/axios)
+    * Used Axios to grab data from the [OMDB API](http://www.omdbapi.com) and the [Bands In Town API](http://www.artists.bandsintown.com/bandsintown-api)
+* [Moment](https://www.npmjs.com/package/moment)
+* [DotEnv](https://www.npmjs.com/package/dotenv)
 
-## Instructions on how to run the app
+## Role in the app development
+
+I wrote the entire application in javascript, taking advantage of all the above technologies to get a working _LIRI_
+
+
+## Instructions on setting-up the app
 1. The Spotify API requires you sign up as a developer to generate the necessary credentials. You can follow these steps in order to generate a **client id** and **client secret**:
 
 * Step One: Visit <https://developer.spotify.com/my-applications/#!/>
@@ -38,21 +54,24 @@ Afterward you can install your node packages with the following command in the r
 
 `npm install`
 
-Once you've done that you're set to go
+Once you've done that you're set to go!
 
-## Clearly list the technologies used in the app
-We used the following:
-* [Node](https://nodejs.org/en/)
-* [Node Package Manager](https://www.npmjs.com/)
-* [Node-Spotify-API](https://www.npmjs.com/package/node-spotify-api)
-* [Axios](https://www.npmjs.com/package/axios)
-    * Used Axios to grab data from the [OMDB API](http://www.omdbapi.com) and the [Bands In Town API](http://www.artists.bandsintown.com/bandsintown-api)
-* [Moment](https://www.npmjs.com/package/moment)
-* [DotEnv](https://www.npmjs.com/package/dotenv)
+## Using the app and examples
 
-## Role in the app development
+Navigate to the root folder and type commands like this:
 
-I wrote the entire application in javascript, taking advantage of all the above technologies to get a working _LIRI_
+`node liri.js`
+This will give you a list of commands you can type:
+
+`node liri.js spotify-this-song SONG_GOES_HERE`
+`node liri.js concert-this ARTIST_GOES_HERE`
+`node liri.js movie-this MOVIE_GOES_HERE`
+`node liri.js do-what-it-says`
+
+The `do-what-it-says` function will run based upon what you have in the `random.txt` file. Currently we have 
+`spotify-this-song,”Put me thru“` 
+
+So this will run the spotiy-this-song function with the song "put me thru" and will return relevant data!
 
 ## See it in action
 spotify-this-song: 
@@ -63,7 +82,7 @@ concert-this:
 
 ![](https://s3.amazonaws.com/cloudapp-workfront/items/0D061I0C0r3R0P3T0q3M/Screen%20Recording%202019-10-24%20at%2010.41%20AM.gif)
 
-move-this: 
+movie-this: 
 
 ![](https://s3.amazonaws.com/cloudapp-workfront/items/2w2z1e0X3C1R3v000H3k/Screen%20Recording%202019-10-24%20at%2011.39%20AM.gif?X-CloudApp-Visitor-Id=2953667)
 
